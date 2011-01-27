@@ -16,7 +16,11 @@ GEM
     crack (0.1.8)
     diff-lcs (1.1.2)
     json (1.4.6)
+    method_source (0.2.0)
     mime-types (1.16)
+    pry (0.4.5)
+      method_source (>= 0.2.0)
+      ruby_parser (>= 2.0.5)
     rest-client (1.6.1)
       mime-types (>= 1.16)
     rspec (2.3.0)
@@ -27,6 +31,9 @@ GEM
     rspec-expectations (2.3.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.3.0)
+    ruby_parser (2.0.5)
+      sexp_processor (~> 3.0)
+    sexp_processor (3.0.5)
     webmock (1.6.2)
       addressable (>= 2.2.2)
       crack (>= 0.1.7)
@@ -38,6 +45,7 @@ DEPENDENCIES
   autotest
   autotest-growl
   json
+  pry
   rest-client
   rspec (~> 2.3.0)
   traktor!
