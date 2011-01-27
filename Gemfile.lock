@@ -1,0 +1,44 @@
+PATH
+  remote: .
+  specs:
+    traktor (0.0.1)
+      json
+      rest-client
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    ZenTest (4.4.2)
+    addressable (2.2.2)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-growl (0.2.9)
+    crack (0.1.8)
+    diff-lcs (1.1.2)
+    json (1.4.6)
+    mime-types (1.16)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
+    rspec (2.3.0)
+      rspec-core (~> 2.3.0)
+      rspec-expectations (~> 2.3.0)
+      rspec-mocks (~> 2.3.0)
+    rspec-core (2.3.1)
+    rspec-expectations (2.3.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.3.0)
+    webmock (1.6.2)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  autotest
+  autotest-growl
+  json
+  rest-client
+  rspec (~> 2.3.0)
+  traktor!
+  webmock
