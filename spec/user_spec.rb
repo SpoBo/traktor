@@ -62,18 +62,23 @@ describe Traktor::Client::UserModule do
     end
 
     context "with global user" do
+
       before do
-        @traktor.send('user=', 'justin')
+        @traktor.send('user=', 'justin') # this is something I picked up from a ruby ninja :o
       end
 
-      subject do
-        @traktor.watched_movies
+      context "neglecting to fill in a username" do
+
+        subject do
+          @traktor.watched_movies
+        end
+
+        it "should default to the global user" do
+          subject
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/watched/movies.json/valid/justin")
+        end
       end
 
-      it "should default to the global user" do
-        subject
-        WebMock.should have_requested(:get , "http://api.trakt.tv/user/watched/movies.json/valid/justin")
-      end
     end
 
   end
