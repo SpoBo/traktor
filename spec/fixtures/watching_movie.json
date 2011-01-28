@@ -1,0 +1,10 @@
+{
+   "type":"movie",
+   "movie": {
+      "title":"Dinner for Schmucks",
+      "year":2010,
+      "url":"http://trakt.tv/movie/dinner-for-schmucks-2010",
+      "imdb_id":"tt0427152",
+      "tmdb_id":"38778"
+   }
+}

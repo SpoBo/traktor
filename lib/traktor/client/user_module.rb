@@ -6,15 +6,20 @@ module Traktor
 
       def watched_movies(user=nil)
         ensure_user(user) do |user|
-          JSON.parse(RestClient.get("#{@endpoint}/user/watched/movies.json/#{@api_key}/#{user}", :accept => :json)).
-            map { |o| Movie.new(o['movie']) }
+          Parser.parse(RestClient.get("#{@endpoint}/user/watched/movies.json/#{@api_key}/#{user}", :accept => :json))
         end
       end
 
 
       def watched_episodes(user=nil)
         ensure_user(user) do |user|
-          Show.build(JSON.parse(RestClient.get("#{@endpoint}/user/watched/episodes.json/#{@api_key}/#{user}", :accept => :json)))
+          Parser.parse(RestClient.get("#{@endpoint}/user/watched/episodes.json/#{@api_key}/#{user}", :accept => :json))
+        end
+      end
+
+      def watching(user=nil)
+        ensure_user(user) do |user|
+          Parser.parse(RestClient.get("#{@endpoint}/user/watching.json/#{@api_key}/#{user}", :accept => :json))
         end
       end
 

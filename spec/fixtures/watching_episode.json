@@ -1,0 +1,16 @@
+{
+   "type":"episode",
+   "show": {
+      "title":"Community",
+      "url":"http://trakt.tv/show/community",
+      "imdb_id":"tt1439629",
+      "tvdb_id":"94571"
+   },
+   "episode": {
+      "season":2,
+      "number":7,
+      "title":"Aerodynamics of Gender",
+      "url":"http://trakt.tv/show/community/season/2/episode/7",
+      "first_aired":1288854000
+   }
+}
