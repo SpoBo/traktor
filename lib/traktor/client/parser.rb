@@ -19,10 +19,10 @@ module Traktor
             shows = {}
             response.each do |o|
               show = build_single_show(o)
-              unless shows[show.imdb_id.to_sym]
-                shows[show.imdb_id.to_sym] = show
+              unless shows[show.url]
+                shows[show.url] = show
               else
-                shows[show.imdb_id.to_sym].episodes << show.episodes.first
+                shows[show.url].episodes << show.episodes.first
               end
             end
 
