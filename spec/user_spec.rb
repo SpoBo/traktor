@@ -128,11 +128,11 @@ describe Traktor::Client::UserModule do
         end
 
         it "should contain proper episode information for the first episode in the second show" do
-          subject[1].episodes[0].title == "Past Transgressions"
-          subject[1].episodes[0].url == "http://trakt.tv/show/spartacus-gods-of-the-arena/season/1/episode/1"
-          subject[1].episodes[0].season == 1
-          subject[1].episodes[0].number == 1
-          subject[1].episodes[0].first_aired == Time.new(2011, 1, 22)
+          subject[1].episodes[0].title.should == "Past Transgressions"
+          subject[1].episodes[0].url.should == "http://trakt.tv/show/spartacus-gods-of-the-arena/season/1/episode/1"
+          subject[1].episodes[0].season.should == 1
+          subject[1].episodes[0].number.should == 1
+          subject[1].episodes[0].first_aired.should == Time.new(2011, 1, 21, 9)
         end
 
       end
