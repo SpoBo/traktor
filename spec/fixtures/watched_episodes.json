@@ -1,0 +1,56 @@
+[
+    {
+        "watched":0,
+        "show":
+        {
+            "title":"Blue Mountain State",
+            "url":"http://trakt.tv/show/blue-mountain-state",
+            "imdb_id":"tt1344204",
+            "tvdb_id":"134511"
+        },
+        "episode":
+        {
+            "season":2,
+            "number":6,
+            "title":"Nerds",
+            "url":"http://trakt.tv/show/blue-mountain-state/season/2/episode/6",
+            "first_aired":1289980800
+        }
+    },
+    {
+        "watched":0,
+        "show":
+        {
+            "title":"Spartacus: Gods of the Arena",
+            "url":"http://trakt.tv/show/spartacus-gods-of-the-arena",
+            "imdb_id":"tt1758429",
+            "tvdb_id":"207341"
+        },
+        "episode":
+        {
+            "season":1,
+            "number":1,
+            "title":"Past Transgressions",
+            "url":"http://trakt.tv/show/spartacus-gods-of-the-arena/season/1/episode/1",
+            "first_aired":1295596800
+        }
+    },
+    {
+        "watched":0,
+        "show":
+        {
+            "title":"Blue Mountain State",
+            "url":"http://trakt.tv/show/blue-mountain-state",
+            "imdb_id":"tt1344204",
+            "tvdb_id":"134511"
+        },
+        "episode":
+        {
+            "season":1,
+            "number":7,
+            "title":"The Legend of the Golden Arm",
+            "url":"http://trakt.tv/show/blue-mountain-state/season/1/episode/7",
+            "first_aired":1266307200
+        }
+    }
+]

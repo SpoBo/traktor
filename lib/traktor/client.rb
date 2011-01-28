@@ -1,4 +1,6 @@
 require File.expand_path('../client/movie', __FILE__)
+require File.expand_path('../client/show', __FILE__)
+require File.expand_path('../client/episode', __FILE__)
 require File.expand_path('../client/exceptions', __FILE__)
 require File.expand_path('../client/user_module', __FILE__)
 require 'rest_client'

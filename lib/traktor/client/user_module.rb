@@ -11,6 +11,13 @@ module Traktor
         end
       end
 
+
+      def watched_episodes(user=nil)
+        ensure_user(user) do |user|
+          Show.build(JSON.parse(RestClient.get("#{@endpoint}/user/watched/episodes.json/#{@api_key}/#{user}", :accept => :json)))
+        end
+      end
+
       protected
 
         def ensure_user(user)
