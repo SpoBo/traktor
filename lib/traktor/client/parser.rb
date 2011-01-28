@@ -41,23 +41,18 @@ module Traktor
       end
 
       def self.build_single_show(hash)
-        show = Show.new
-        show.title, show.url, show.imdb_id, show.tvdb_id = hash['show']['title'], hash['show']['url'], hash['show']['imdb_id'], hash['show']['tvdb_id']
+        show = Show.new(hash['show']['title'], hash['show']['url'], hash['show']['imdb_id'], hash['show']['tvdb_id'])
         show.episodes = [build_single_episode(hash['episode'])]
 
         show
       end
 
       def self.build_single_episode(hash)
-        e = Episode.new
-        e.title, e.url, e.season, e.number, e.first_aired = hash['title'], hash['url'], hash['season'], hash['number'], Time.at(hash['first_aired'].to_i)
-        e
+        Episode.new(hash['title'], hash['url'], hash['season'], hash['number'], Time.at(hash['first_aired'].to_i))
       end
 
       def self.build_single_movie(hash)
-        movie = Movie.new()
-        movie.title, movie.year, movie.url, movie.imdb_id, movie.tmdb_id = hash['movie']['title'], hash['movie']['year'], hash['movie']['url'], hash['movie']['imdb_id'], hash['movie']['tmdb_id']
-        movie
+        Movie.new(hash['movie']['title'], hash['movie']['year'], hash['movie']['url'], hash['movie']['imdb_id'], hash['movie']['tmdb_id'])
       end
 
       def self.parse_date(json_date)
