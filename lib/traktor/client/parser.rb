@@ -31,6 +31,8 @@ module Traktor
             end
           end
           return shows.values
+        when :library_shows
+          return response.map {|o| build_single_show(o, false)}
         when :watching
           case response['type'].downcase
           when 'movie'
@@ -45,9 +47,13 @@ module Traktor
 
 
 
-      def self.build_single_show(hash)
-        show = Show.new(hash['show']['title'], hash['show']['url'], hash['show']['imdb_id'], hash['show']['tvdb_id'])
-        show.episodes = [build_single_episode(hash['episode'])]
+      def self.build_single_show(hash, include_episode=true)
+        show_hash = include_episode ? hash['show'] : hash
+
+        show = Show.new(show_hash['title'], show_hash['url'], show_hash['imdb_id'], show_hash['tvdb_id'], show_hash['year'])
+        if include_episode
+          show.episodes = [build_single_episode(hash['episode'])]
+        end
 
         show
       end

@@ -28,6 +28,12 @@ module Traktor
         end
       end
 
+      def library_shows(user=nil)
+        ensure_user(user) do |user|
+          Parser.parse(RestClient.get("#{@endpoint}/user/library/shows.json/#{@api_key}/#{user}", :accept => :json), :to_return => :library_shows)
+        end
+      end
+
       protected
 
         def ensure_user(user)

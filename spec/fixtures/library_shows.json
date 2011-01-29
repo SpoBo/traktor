@@ -1,0 +1,37 @@
+[
+    {
+        "title":"The Big Bang Theory",
+        "year":2007,
+        "url":"http://trakt.tv/show/the-big-bang-theory",
+        "imdb_id":"tt0898266",
+        "tvdb_id":"80379"
+    },
+    {
+        "title":"Chuck",
+        "year":2007,
+        "url":"http://trakt.tv/show/chuck",
+        "imdb_id":"tt0934814",
+        "tvdb_id":"80348"
+    },
+    {
+        "title":"How I Met Your Mother",
+        "year":2005,
+        "url":"http://trakt.tv/show/how-i-met-your-mother",
+        "imdb_id":"tt0460649",
+        "tvdb_id":"75760"
+    },
+    {
+        "title":"Spartacus: Blood and Sand",
+        "year":2010,
+        "url":"http://trakt.tv/show/spartacus-blood-and-sand",
+        "imdb_id":"tt1442449",
+        "tvdb_id":"129261"
+    },
+    {
+        "title":"Spartacus: Gods of the Arena",
+        "year":2011,
+        "url":"http://trakt.tv/show/spartacus-gods-of-the-arena",
+        "imdb_id":"tt1758429",
+        "tvdb_id":"207341"
+    }
+]

@@ -369,4 +369,70 @@ describe Traktor::Client::UserModule do
     end
 
   end
+
+
+
+
+
+  describe ".library_shows" do
+
+    before do
+      stub_request(:get, "http://api.trakt.tv/user/library/shows.json/valid/justin").
+        with(:headers => {'Accept'=>'application/json'}).
+        to_return(:status => 200, :body => fixture('library_shows.json'))
+    end
+
+    context "without global user" do
+
+      context "filling in 'justin'" do
+
+        subject do
+          @traktor.library_shows('justin')
+        end
+
+        it "should have invoked the URL" do
+          subject # we'll have to explicitly call it ... meh
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/library/shows.json/valid/justin")
+        end
+
+        it "should contain show objects" do
+          subject.each {|o| o.should satisfy { |o| o.is_a? Traktor::Client::Show }}
+        end
+
+        it "should find 5 shows" do
+          subject.count.should == 5
+        end
+
+        it "should contain the correct data for the first show" do
+          subject[0].title.should == 'The Big Bang Theory'
+          subject[0].url.should == 'http://trakt.tv/show/the-big-bang-theory'
+          subject[0].year.should == 2007
+          subject[0].imdb_id.should == 'tt0898266'
+          subject[0].tvdb_id.should == '80379'
+        end
+
+      end
+    end
+
+    context "with global user" do
+
+      before do
+        @traktor.send('user=', 'justin')
+      end
+
+      context "neglecting to fill in a username" do
+
+        subject do
+          @traktor.library_shows
+        end
+
+        it "should default to the global user" do
+          subject
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/library/shows.json/valid/justin")
+        end
+      end
+
+    end
+
+  end
 end
