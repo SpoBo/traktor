@@ -7,6 +7,10 @@ module Traktor
         @title, @url, @imdb_id, @tvdb_id = title, url, imdb_id, tvdb_id
       end
 
+      def == (other)
+        @url == other.url
+      end
+
     end
   end
 end

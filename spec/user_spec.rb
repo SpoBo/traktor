@@ -44,6 +44,11 @@ describe Traktor::Client::UserModule do
           subject[0].tmdb_id.should == '50703'
         end
 
+        it "should contain the watched data for the first movie" do
+          subject[0].watched?.should be_true
+          subject[0].watched_at.should == Time.new(2011, 1, 10, 5, 42, 29)
+        end
+
       end
 
 
@@ -294,5 +299,74 @@ describe Traktor::Client::UserModule do
 
       end
     end
+  end
+
+
+  describe ".library_movies" do
+
+    before do
+      stub_request(:get, "http://api.trakt.tv/user/library/movies.json/valid/justin").
+        with(:headers => {'Accept'=>'application/json'}).
+        to_return(:status => 200, :body => fixture('library_movies.json'))
+    end
+
+    context "without global user" do
+
+      context "filling in 'justin'" do
+
+        subject do
+          @traktor.library_movies('justin')
+        end
+
+        it "should have invoked the URL" do
+          subject # we'll have to explicitly call it ... meh
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/library/movies.json/valid/justin")
+        end
+
+        it "should contain movie objects" do
+          subject.each {|o| o.should satisfy { |o| o.is_a? Traktor::Client::Movie }}
+        end
+
+        it "should find 3 movies" do
+          subject.count.should == 3
+        end
+
+        it "should register movies watched status correctly" do
+          subject[0].watched?.should be_false
+          subject[1].watched?.should be_true
+          subject[2].watched?.should be_true
+        end
+
+        it "should contain the proper information for the first movie" do
+          subject[0].title.should == '(500) Days of Summer'
+          subject[0].year.should == 2009
+          subject[0].url.should == 'http://trakt.tv/movie/500-days-of-summer-2009'
+          subject[0].imdb_id.should == 'tt1022603'
+          subject[0].tmdb_id.should == '19913'
+        end
+
+      end
+    end
+
+    context "with global user" do
+
+      before do
+        @traktor.send('user=', 'justin')
+      end
+
+      context "neglecting to fill in a username" do
+
+        subject do
+          @traktor.library_movies
+        end
+
+        it "should default to the global user" do
+          subject
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/library/movies.json/valid/justin")
+        end
+      end
+
+    end
+
   end
 end

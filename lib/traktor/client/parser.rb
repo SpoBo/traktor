@@ -2,7 +2,7 @@ module Traktor
   class Client
     # This will parse the result from the webservice to whatever it needs to be.
     class Parser
-      def self.parse(response)
+      def self.parse(response, options={})
 
         # Return nil if the result is false.
         return nil if response == 'false'
@@ -10,35 +10,40 @@ module Traktor
         # If the response is empty return an empty array.
         return [] if response.size == 0
 
+        options[:to_return] ||= :undefined
+
         # Parse it from JSON first
         response = JSON.parse(response)
 
-        if response.is_a? Array
-          # We should return either a collection of Movie or Show objects.
-          if response[0]['show'] # So it's shows eeej?
-            shows = {}
-            response.each do |o|
-              show = build_single_show(o)
-              unless shows[show.url]
-                shows[show.url] = show
-              else
-                shows[show.url].episodes << show.episodes.first
-              end
+        case options[:to_return]
+        when :watched_movies
+          return response.map {|o| build_single_movie(o['movie'], o['watched'])}
+        when :movies
+          return response.map {|o| build_single_movie(o)}
+        when :shows, :watched_episodes
+          shows = {}
+          response.each do |o|
+            show = build_single_show(o)
+            unless shows[show.url]
+              shows[show.url] = show
+            else
+              shows[show.url].episodes << show.episodes.first
             end
-
-            return shows.values # Neej it's movies!
-          elsif response[0]['movie']
-            response.map {|o| build_single_movie(o)}
           end
-        elsif response['type'] # If we have a type we know it's either a movie or a show.
+          return shows.values
+        when :watching
           case response['type'].downcase
           when 'movie'
-            build_single_movie(response)
+            return build_single_movie(response['movie'])
           when 'episode'
-            build_single_show(response)
+            return build_single_show(response)
           end
+        else
+          raise "not implemented"
         end
       end
+
+
 
       def self.build_single_show(hash)
         show = Show.new(hash['show']['title'], hash['show']['url'], hash['show']['imdb_id'], hash['show']['tvdb_id'])
@@ -48,16 +53,19 @@ module Traktor
       end
 
       def self.build_single_episode(hash)
-        Episode.new(hash['title'], hash['url'], hash['season'], hash['number'], Time.at(hash['first_aired'].to_i))
+        Episode.new(hash['title'], hash['url'], hash['season'], hash['number'], parse_date(hash['first_aired']))
       end
 
-      def self.build_single_movie(hash)
-        Movie.new(hash['movie']['title'], hash['movie']['year'], hash['movie']['url'], hash['movie']['imdb_id'], hash['movie']['tmdb_id'])
+      def self.build_single_movie(hash, watched_timestamp=nil)
+        if watched_timestamp
+          Movie.new(hash['title'], hash['year'], hash['url'], hash['imdb_id'], hash['tmdb_id'], true, parse_date(watched_timestamp))
+        else
+          Movie.new(hash['title'], hash['year'], hash['url'], hash['imdb_id'], hash['tmdb_id'], hash['watched'], nil)
+        end
       end
 
-      def self.parse_date(json_date)
-        seconds_since_epoch = json_date.scan(/[0-9]+/)[0].to_i
-        return Time.at(seconds_since_epoch)
+      def self.parse_date(epoch_string)
+        Time.at(epoch_string.to_i)
       end
     end
   end

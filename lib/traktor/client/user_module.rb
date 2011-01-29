@@ -6,20 +6,25 @@ module Traktor
 
       def watched_movies(user=nil)
         ensure_user(user) do |user|
-          Parser.parse(RestClient.get("#{@endpoint}/user/watched/movies.json/#{@api_key}/#{user}", :accept => :json))
+          Parser.parse(RestClient.get("#{@endpoint}/user/watched/movies.json/#{@api_key}/#{user}", :accept => :json), :to_return => :watched_movies)
         end
       end
 
-
       def watched_episodes(user=nil)
         ensure_user(user) do |user|
-          Parser.parse(RestClient.get("#{@endpoint}/user/watched/episodes.json/#{@api_key}/#{user}", :accept => :json))
+          Parser.parse(RestClient.get("#{@endpoint}/user/watched/episodes.json/#{@api_key}/#{user}", :accept => :json), :to_return => :watched_episodes)
         end
       end
 
       def watching(user=nil)
         ensure_user(user) do |user|
-          Parser.parse(RestClient.get("#{@endpoint}/user/watching.json/#{@api_key}/#{user}", :accept => :json))
+          Parser.parse(RestClient.get("#{@endpoint}/user/watching.json/#{@api_key}/#{user}", :accept => :json), :to_return => :watching)
+        end
+      end
+
+      def library_movies(user=nil)
+        ensure_user(user) do |user|
+          Parser.parse(RestClient.get("#{@endpoint}/user/library/movies.json/#{@api_key}/#{user}", :accept => :json), :to_return => :movies)
         end
       end
 
