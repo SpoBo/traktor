@@ -34,6 +34,12 @@ module Traktor
         end
       end
 
+      def watched(user=nil)
+        ensure_user(user) do |user|
+          Parser.parse(RestClient.get("#{@endpoint}/user/watched.json/#{@api_key}/#{user}", :accept => :json), :to_return => :watched)
+        end
+      end
+
       protected
 
         def ensure_user(user)

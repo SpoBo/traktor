@@ -1,0 +1,71 @@
+[
+    {
+        "type":"episode",
+        "watched":1296016065,
+        "show":
+        {
+            "title":"Blue Mountain State",
+            "url":"http://trakt.tv/show/blue-mountain-state",
+            "imdb_id":"tt1344204",
+            "tvdb_id":"134511"
+        },
+        "episode":
+        {
+            "season":2,
+            "number":6,
+            "title":"Nerds",
+            "url":"http://trakt.tv/show/blue-mountain-state/season/2/episode/6",
+            "first_aired":1289980800
+        }
+    },
+    {
+        "type":"episode",
+        "watched":1295936861,
+        "show":
+        {
+            "title":"Spartacus: Gods of the Arena",
+            "url":"http://trakt.tv/show/spartacus-gods-of-the-arena",
+            "imdb_id":"tt1758429",
+            "tvdb_id":"207341"
+        },
+        "episode":
+        {
+            "season":1,
+            "number":1,
+            "title":"Past Transgressions",
+            "url":"http://trakt.tv/show/spartacus-gods-of-the-arena/season/1/episode/1",
+            "first_aired":1295596800
+        }
+    },
+    {
+        "type":"movie",
+        "watched":1294634549,
+        "movie":
+        {
+            "title":"Despicable Me",
+            "year":2010,
+            "url":"http://trakt.tv/movie/despicable-me-2010",
+            "imdb_id":"tt1323594",
+            "tmdb_id":"50703"
+        }
+    },
+    {
+        "type":"episode",
+        "watched":1294196856,
+        "show":
+        {
+            "title":"Blue Mountain State",
+            "url":"http://trakt.tv/show/blue-mountain-state",
+            "imdb_id":"tt1344204",
+            "tvdb_id":"134511"
+        },
+        "episode":
+        {
+            "season":2,
+            "number":5,
+            "title":"Pregnant",
+            "url":"http://trakt.tv/show/blue-mountain-state/season/2/episode/5",
+            "first_aired":1289376000
+        }
+    }
+]

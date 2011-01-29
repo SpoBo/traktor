@@ -20,17 +20,10 @@ module Traktor
           return response.map {|o| build_single_movie(o['movie'], o['watched'])}
         when :movies
           return response.map {|o| build_single_movie(o)}
-        when :shows, :watched_episodes
-          shows = {}
-          response.each do |o|
-            show = build_single_show(o)
-            unless shows[show.url]
-              shows[show.url] = show
-            else
-              shows[show.url].episodes << show.episodes.first
-            end
-          end
-          return shows.values
+        when :shows
+          return build_shows(response, false)
+        when :watched_episodes
+          return build_shows(response, true)
         when :library_shows
           return response.map {|o| build_single_show(o, false)}
         when :watching
@@ -40,19 +33,53 @@ module Traktor
           when 'episode'
             return build_single_show(response)
           end
+        when :watched # return a mixed array of movies & shows.
+          watched = {}
+
+          response.each do |o|
+            case o['type'].downcase
+            when 'movie'
+              watched[o['url']] = build_single_movie(o['movie'], o['watched'])
+            when 'episode'
+              show = build_single_show(o)
+              show.episodes[0].watched_at = parse_date(o['watched'])
+              unless watched[show.url]
+                watched[show.url] = show
+              else
+                watched[show.url].episodes << show.episodes.first
+              end
+            end
+          end
+
+          return watched.values
         else
           raise "not implemented"
         end
       end
 
 
+      def self.build_shows(array, mark_all_as_watched)
+        shows = {}
+        array.each do |o|
+          show = build_single_show(o, true, mark_all_as_watched)
+          unless shows[show.url]
+            shows[show.url] = show
+          else
+            shows[show.url].episodes << show.episodes.first
+          end
+        end
+        shows.values
+      end
 
-      def self.build_single_show(hash, include_episode=true)
+
+      def self.build_single_show(hash, include_episode=true, watched=false)
         show_hash = include_episode ? hash['show'] : hash
 
         show = Show.new(show_hash['title'], show_hash['url'], show_hash['imdb_id'], show_hash['tvdb_id'], show_hash['year'])
         if include_episode
-          show.episodes = [build_single_episode(hash['episode'])]
+          episode = build_single_episode(hash['episode'])
+          episode.watched = true if watched
+          show.episodes = [episode]
         end
 
         show

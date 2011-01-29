@@ -140,6 +140,10 @@ describe Traktor::Client::UserModule do
           subject[1].episodes[0].first_aired.should == Time.new(2011, 1, 21, 9)
         end
 
+        it "should return the episodes as watched" do
+          subject[0].episodes[0].watched?.should be_true
+        end
+
       end
 
     end
@@ -429,6 +433,99 @@ describe Traktor::Client::UserModule do
         it "should default to the global user" do
           subject
           WebMock.should have_requested(:get , "http://api.trakt.tv/user/library/shows.json/valid/justin")
+        end
+      end
+
+    end
+
+  end
+
+
+
+  describe ".watched" do
+
+    before do
+      stub_request(:get, "http://api.trakt.tv/user/watched.json/valid/justin").
+        with(:headers => {'Accept'=>'application/json'}).
+        to_return(:status => 200, :body => fixture('watched.json'))
+    end
+
+    context "without global user" do
+
+      context "filling in 'justin'" do
+
+        subject do
+          @traktor.watched('justin')
+        end
+
+        it "should have invoked the URL" do
+          subject # we'll have to explicitly call it ... meh
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/watched.json/valid/justin")
+        end
+
+        it "should return 3 objects" do
+          subject.count.should == 3
+        end
+
+        it "should contain show objects & movie objects" do
+          subject[0].should satisfy { |o| o.is_a? Traktor::Client::Show }
+          subject[1].should satisfy { |o| o.is_a? Traktor::Client::Show }
+          subject[2].should satisfy { |o| o.is_a? Traktor::Client::Movie }
+        end
+
+        it "should group episodes in a single show" do
+          subject[0].episodes.size.should == 2
+        end
+
+        it "should contain correct data for shows" do
+          subject[0].title.should == 'Blue Mountain State'
+          subject[0].url.should == 'http://trakt.tv/show/blue-mountain-state'
+          subject[0].imdb_id.should == 'tt1344204'
+          subject[0].tvdb_id.should == '134511'
+        end
+
+        it "should contain correct data for movies" do
+          subject[2].title.should == 'Despicable Me'
+          subject[2].url.should == 'http://trakt.tv/movie/despicable-me-2010'
+          subject[2].imdb_id.should == 'tt1323594'
+          subject[2].tmdb_id.should == '50703'
+        end
+
+        it "should return the watched dates for episodes" do
+          subject[0].episodes[0].watched_at.should == Time.new(2011, 1, 26, 5, 27, 45)
+          subject[0].episodes[1].watched_at.should == Time.new(2011, 1, 5, 4, 7, 36)
+        end
+
+        it "should return episodes as watched" do
+          subject[0].episodes[0].watched?.should be_true
+          subject[0].episodes[1].watched?.should be_true
+        end
+
+        it "should return movies as watched" do
+          subject[2].watched?.should be_true
+        end
+
+        it "should return watched dates for movies" do
+          subject[2].watched_at.should == Time.new(2011, 1, 10, 5, 42, 29)
+        end
+      end
+    end
+
+    context "with global user" do
+
+      before do
+        @traktor.send('user=', 'justin')
+      end
+
+      context "neglecting to fill in a username" do
+
+        subject do
+          @traktor.watched
+        end
+
+        it "should default to the global user" do
+          subject
+          WebMock.should have_requested(:get , "http://api.trakt.tv/user/watched.json/valid/justin")
         end
       end
 
